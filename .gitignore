@@ -1,0 +1,16 @@
+# Haskell
+dist-newstyle/
+*.hi
+*.o
+
+# Cabal
+cabal.project.local
+cabal.project.local~
+
+# macOS
+.DS_Store
+
+# Environment variables
+.env
+.env.*
+!.env.example

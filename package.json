@@ -1,0 +1,15 @@
+{
+  "name": "haskell-api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Take silly things seriously.",
+  "author": "h-waji (hamltail)",
+  "license": "UNLICENSED",
+  "scripts": {
+    "example:01": "runghc examples/01-basics.hs",
+    "format": "ormolu --mode inplace examples/*.hs",
+    "format:check": "ormolu --mode check examples/*.hs",
+    "lint": "hlint examples",
+    "check": "npm run format:check && npm run lint"
+  }
+}
