@@ -7,6 +7,7 @@ import Data.Scientific (toBoundedInteger)
 import Data.Text (Text)
 import qualified Data.Text.Lazy as TL
 import Network.HTTP.Types.Status (internalServerError500, notFound404)
+import System.Environment (getEnv)
 import Web.Scotty
 
 findPost :: Int -> [Value] -> Maybe Value
@@ -32,6 +33,9 @@ filterPostsByUsername username = filter matchesUsername
 
 main :: IO ()
 main = do
+  apiName <- getEnv "API_NAME"
+  apiLanguage <- getEnv "API_LANGUAGE"
+  apiCategory <- getEnv "API_CATEGORY"
   postsResult <- eitherDecodeFileStrict "data/posts.json" :: IO (Either String [Value])
 
   scotty 3000 $ do
@@ -52,9 +56,9 @@ main = do
                   .= object
                     [ "api"
                         .= object
-                          [ "name" .= ("haskell-api" :: String),
-                            "language" .= ("Haskell" :: String),
-                            "category" .= ("public" :: String)
+                          [ "name" .= apiName,
+                            "language" .= apiLanguage,
+                            "category" .= apiCategory
                           ],
                       "count" .= length filteredPosts
                     ],
@@ -79,9 +83,9 @@ main = do
                       .= object
                         [ "api"
                             .= object
-                              [ "name" .= ("haskell-api" :: String),
-                                "language" .= ("Haskell" :: String),
-                                "category" .= ("public" :: String)
+                              [ "name" .= apiName,
+                                "language" .= apiLanguage,
+                                "category" .= apiCategory
                               ]
                         ],
                     "data"
