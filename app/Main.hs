@@ -4,6 +4,7 @@ import Data.Aeson
 import qualified Data.Aeson.KeyMap as KM
 import Data.List (find)
 import Data.Scientific (toBoundedInteger)
+import Data.Text (Text)
 import qualified Data.Text.Lazy as TL
 import Network.HTTP.Types.Status (internalServerError500, notFound404)
 import Web.Scotty
@@ -17,6 +18,18 @@ findPost postId = find matchesPost
         _ -> False
     matchesPost _ = False
 
+filterPostsByUsername :: Text -> [Value] -> [Value]
+filterPostsByUsername username = filter matchesUsername
+  where
+    matchesUsername (Object postObject) =
+      case KM.lookup "user" postObject of
+        Just (Object userObject) ->
+          case KM.lookup "username" userObject of
+            Just (String value) -> value == username
+            _ -> False
+        _ -> False
+    matchesUsername _ = False
+
 main :: IO ()
 main = do
   postsResult <- eitherDecodeFileStrict "data/posts.json" :: IO (Either String [Value])
@@ -26,8 +39,13 @@ main = do
       text "OK"
 
     get "/api/v1/posts" $ do
+      username <- queryParamMaybe "username"
       case postsResult of
-        Right posts ->
+        Right posts -> do
+          let filteredPosts =
+                case username of
+                  Just value -> filterPostsByUsername value posts
+                  Nothing -> posts
           json $
             object
               [ "meta"
@@ -38,11 +56,11 @@ main = do
                             "language" .= ("Haskell" :: String),
                             "category" .= ("public" :: String)
                           ],
-                      "count" .= length posts
+                      "count" .= length filteredPosts
                     ],
                 "data"
                   .= object
-                    [ "posts" .= posts
+                    [ "posts" .= filteredPosts
                     ]
               ]
         Left err -> do
