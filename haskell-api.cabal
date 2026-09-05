@@ -22,8 +22,10 @@ executable haskell-api
         OverloadedStrings
 
     build-depends:
+        aeson,
         base ^>=4.20.2.0,
-        scotty
+        scotty,
+        text
 
     ghc-options:
         -threaded
