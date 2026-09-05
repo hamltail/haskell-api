@@ -8,7 +8,10 @@ Haskellで実装するPublic Backend APIです。
 
 ### API Category
 
-このAPIは認証を必要としないPublic APIです。
+このAPIはPublic APIです。
+
+`/api/v1/*` へのアクセスにはAPIキーが必要です。APIキーは `X-API-Key` ヘッダーに指定します。
+`/health` は認証なしでアクセスできます。
 
 ```json
 {
@@ -28,6 +31,7 @@ APIに関する設定値は、環境変数から取得します。
 API_NAME=haskell-api
 API_LANGUAGE=Haskell
 API_CATEGORY=public
+API_KEY=your-api-key
 ```
 
 ### Endpoints
@@ -104,6 +108,7 @@ APIの稼働状態を確認します。
 主なHTTPステータス:
 
 - `200 OK` - リクエスト成功
+- `401 Unauthorized` - APIキーが無効
 - `404 Not Found` - リソースが存在しない
 - `500 Internal Server Error` - サーバー内部エラー
 
