@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "user": {
+      "username": "hamru",
+      "displayName": "はむる"
+    },
+    "content": "HaskellでAPIを作っています。",
+    "postedOn": "2026-09-05",
+    "createdAt": "2026-09-05T13:00:00+09:00"
+  },
+  {
+    "id": 2,
+    "user": {
+      "username": "felina",
+      "displayName": "フェリナ"
+    },
+    "content": "関数型プログラミングを修練中です。",
+    "postedOn": "2026-09-04",
+    "createdAt": "2026-09-04T20:30:00+09:00"
+  },
+  {
+    "id": 3,
+    "user": {
+      "username": "hamru",
+      "displayName": "はむる"
+    },
+    "content": "JSONから投稿データを取得しています。",
+    "postedOn": "2026-09-03",
+    "createdAt": "2026-09-03T21:00:00+09:00"
+  }
+]
