@@ -13,9 +13,14 @@
     "ex4": "runghc examples/04-pattern-matching.hs",
     "ex5": "runghc examples/05-types.hs",
     "ex6": "runghc examples/06-io.hs",
-    "format": "ormolu --mode inplace examples/*.hs",
+    "format:haskell": "ormolu --mode inplace examples/*.hs",
+    "format:markdown": "prettier --write \"**/*.md\"",
+    "format": "npm run format:haskell && npm run format:markdown",
     "format:check": "ormolu --mode check examples/*.hs",
     "lint": "hlint examples",
     "check": "npm run format:check && npm run lint"
+  },
+  "devDependencies": {
+    "prettier": "^3.9.6"
   }
 }
