@@ -55,7 +55,22 @@ main = do
         Right posts ->
           case findPost postId posts of
             Just postValue ->
-              json postValue
+              json $
+                object
+                  [ "meta"
+                      .= object
+                        [ "api"
+                            .= object
+                              [ "name" .= ("haskell-api" :: String),
+                                "language" .= ("Haskell" :: String),
+                                "category" .= ("public" :: String)
+                              ]
+                        ],
+                    "data"
+                      .= object
+                        [ "post" .= postValue
+                        ]
+                  ]
             Nothing -> do
               status notFound404
               json $
