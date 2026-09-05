@@ -111,6 +111,40 @@ APIの稼働状態を確認します。
 
 JSONファイルを使用します。
 
+## Setup
+
+```bash
+npm install
+```
+
+`.env.example` を参考に `.env.local` を作成します。
+
+```bash
+npm run dev
+```
+
+## Test
+
+```bash
+npm test
+```
+
+## Docker
+
+```bash
+docker build -t haskell-api .
+```
+
+```bash
+docker run --rm \
+  -p 3000:3000 \
+  -e API_NAME=haskell-api \
+  -e API_LANGUAGE=Haskell \
+  -e API_CATEGORY=public \
+  -e API_KEY=test-api-key \
+  haskell-api
+```
+
 ## License
 
 このリポジトリは学習・技術検証目的で公開しています。
