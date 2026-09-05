@@ -11,6 +11,7 @@
     "ex2": "runghc examples/02-functions.hs",
     "ex3": "runghc examples/03-lists.hs",
     "ex4": "runghc examples/04-pattern-matching.hs",
+    "ex5": "runghc examples/05-types.hs",
     "format": "ormolu --mode inplace examples/*.hs",
     "format:check": "ormolu --mode check examples/*.hs",
     "lint": "hlint examples",
