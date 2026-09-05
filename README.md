@@ -109,7 +109,7 @@ APIの稼働状態を確認します。
 
 ## Data Source
 
-初期実装ではJSONファイルを使用します。
+JSONファイルを使用します。
 
 ## License
 
