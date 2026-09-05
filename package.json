@@ -6,7 +6,7 @@
   "author": "h-waji (hamltail)",
   "license": "UNLICENSED",
   "scripts": {
-    "example:01": "runghc examples/01-basics.hs",
+    "examples": "for file in examples/*.hs; do echo \"=== $file ===\"; runghc \"$file\"; done",
     "format": "ormolu --mode inplace examples/*.hs",
     "format:check": "ormolu --mode check examples/*.hs",
     "lint": "hlint examples",
