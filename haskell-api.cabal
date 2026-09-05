@@ -24,6 +24,8 @@ executable haskell-api
     build-depends:
         aeson,
         base ^>=4.20.2.0,
+        http-types,
+        scientific,
         scotty,
         text
 
