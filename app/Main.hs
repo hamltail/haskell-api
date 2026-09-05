@@ -6,9 +6,10 @@ import Data.List (find)
 import Data.Scientific (toBoundedInteger)
 import Data.Text (Text)
 import qualified Data.Text.Lazy as TL
-import Network.HTTP.Types.Status (internalServerError500, notFound404)
+import Network.HTTP.Types.Status (internalServerError500, notFound404, unauthorized401)
 import System.Environment (getEnv)
 import Web.Scotty
+-- import Control.Monad.IO.Class (liftIO)
 
 findPost :: Int -> [Value] -> Maybe Value
 findPost postId = find matchesPost
@@ -31,11 +32,32 @@ filterPostsByUsername username = filter matchesUsername
         _ -> False
     matchesUsername _ = False
 
+requireApiKey :: String -> ActionM ()
+requireApiKey expectedApiKey = do
+  actualApiKey <- header "X-API-Key"
+  -- liftIO $ print actualApiKey
+  -- liftIO $ print expectedApiKey
+  case actualApiKey of
+    Just value
+      | TL.unpack value == expectedApiKey -> pure ()
+    _ -> do
+      status unauthorized401
+      json $
+        object
+          [ "error"
+              .= object
+                [ "code" .= ("UNAUTHORIZED" :: String),
+                  "message" .= ("Invalid API key" :: String)
+                ]
+          ]
+      finish
+
 main :: IO ()
 main = do
   apiName <- getEnv "API_NAME"
   apiLanguage <- getEnv "API_LANGUAGE"
   apiCategory <- getEnv "API_CATEGORY"
+  apiKey <- getEnv "API_KEY"
   postsResult <- eitherDecodeFileStrict "data/posts.json" :: IO (Either String [Value])
 
   scotty 3000 $ do
@@ -43,6 +65,7 @@ main = do
       text "OK"
 
     get "/api/v1/posts" $ do
+      requireApiKey apiKey
       username <- queryParamMaybe "username"
       case postsResult of
         Right posts -> do
@@ -72,6 +95,7 @@ main = do
           text ("Failed to load posts.json: " <> TL.pack err)
 
     get "/api/v1/posts/:id" $ do
+      requireApiKey apiKey
       postId <- pathParam "id"
       case postsResult of
         Right posts ->
