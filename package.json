@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "description": "Take silly things seriously.",
-  "author": "h-waji (hamltail)",
+  "author": "hamltail",
   "license": "UNLICENSED",
   "scripts": {
     "examples": "for file in examples/*.hs; do echo \"=== $file ===\"; runghc \"$file\"; done",
